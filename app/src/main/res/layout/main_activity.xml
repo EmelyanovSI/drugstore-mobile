@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/main_activity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+    <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+
+            android:background="@color/colorDrugstorePrimary"
+            app:titleTextColor="@color/white"
+            app:subtitleTextColor="@color/white"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    <com.miguelcatalan.materialsearchview.MaterialSearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:hint="@string/search"
+            android:textColorHint="#FFFFFF"
+            android:textColor="#FFFFFF"
+
+            app:searchBackground="@color/colorPrimary"
+            app:searchSuggestionBackground="@color/colorPrimary"
+
+            app:searchBackIcon="@drawable/ic_action_navigation_arrow_back_inverted"
+            app:searchCloseIcon="@drawable/ic_action_navigation_close_inverted"
+            app:searchSuggestionIcon="@drawable/ic_suggestion"
+
+
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!--app:searchVoiceIcon="@drawable/ic_action_voice_search_inverted"-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>
