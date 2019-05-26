@@ -1,0 +1,369 @@
+{
+  "drugstores": [
+    {
+      "drugstore": "Belarus",
+      "drugs": [
+        {
+          "title": "Ибупрофен",
+          "purpose": "painkiller",
+          "composition": ""
+        },
+        {
+          "title": "Перекись водорода",
+          "purpose": "Hydrogen peroxide",
+          "composition": ""
+        },
+        {
+          "title": "Валидол",
+          "purpose": "heartache",
+          "composition": ""
+        },
+        {
+          "title": "Парацетамол",
+          "purpose": "headache",
+          "composition": ""
+        },
+        {
+          "title": "Активированный уголь",
+          "purpose": "enterosorbing agent",
+          "composition": ""
+        },
+        {
+          "title": "Панадол",
+          "purpose": "headache",
+          "composition": ""
+        },
+        {
+          "title": "Калпол",
+          "purpose": "headache",
+          "composition": ""
+        },
+        {
+          "title": "Аевит",
+          "purpose": "vitamins",
+          "composition": ""
+        },
+        {
+          "title": "Антиоксикапс",
+          "purpose": "vitamins",
+          "composition": ""
+        },
+        {
+          "title": "Аква марис",
+          "purpose": "for throat",
+          "composition": ""
+        },
+        {
+          "title": "Гексализ",
+          "purpose": "for throat",
+          "composition": ""
+        },
+        {
+          "title": "Анзибел",
+          "purpose": "for throat",
+          "composition": ""
+        },
+        {
+          "title": "Стопдиар",
+          "purpose": "from diarrhea",
+          "composition": ""
+        },
+        {
+          "title": "Биофлор",
+          "purpose": "from diarrhea",
+          "composition": ""
+        },
+        {
+          "title": "Бактолакт",
+          "purpose": "from diarrhea",
+          "composition": ""
+        },
+        {
+          "title": "Анестезол",
+          "purpose": "hemorrhoids",
+          "composition": ""
+        },
+        {
+          "title": "Анузол",
+          "purpose": "hemorrhoids",
+          "composition": ""
+        },
+        {
+          "title": "Гемороль",
+          "purpose": "hemorrhoids",
+          "composition": ""
+        },
+        {
+          "title": "Аллергодил",
+          "purpose": "from allergies",
+          "composition": ""
+        },
+        {
+          "title": "Аллеркапс",
+          "purpose": "from allergies",
+          "composition": ""
+        },
+        {
+          "title": "Дезлоратадин",
+          "purpose": "from allergies",
+          "composition": ""
+        },
+        {
+          "title": "Биеносилим",
+          "purpose": "for liver",
+          "composition": ""
+        },
+        {
+          "title": "Гепа-мерц",
+          "purpose": "for liver",
+          "composition": ""
+        },
+        {
+          "title": "Гепатолек",
+          "purpose": "for liver",
+          "composition": ""
+        }
+      ]
+    },
+    {
+      "drugstore": "Russia",
+      "drugs": [
+        {
+          "title": "Валидол",
+          "purpose": "heartache",
+          "composition": ""
+        },
+        {
+          "title": "Парацетамол",
+          "purpose": "headache",
+          "composition": ""
+        },
+        {
+          "title": "Активированный уголь",
+          "purpose": "enterosorbing agent",
+          "composition": ""
+        },
+        {
+          "title": "Панадол",
+          "purpose": "headache",
+          "composition": ""
+        },
+        {
+          "title": "Калпол",
+          "purpose": "headache",
+          "composition": ""
+        },
+        {
+          "title": "Антраль",
+          "purpose": "for liver",
+          "composition": ""
+        },
+        {
+          "title": "Галстена",
+          "purpose": "for liver",
+          "composition": ""
+        },
+        {
+          "title": "Хепель",
+          "purpose": "for liver",
+          "composition": ""
+        },
+        {
+          "title": "Анаферон",
+          "purpose": "for throat",
+          "composition": ""
+        },
+        {
+          "title": "Колустан",
+          "purpose": "for throat",
+          "composition": ""
+        },
+        {
+          "title": "Люголь",
+          "purpose": "for throat",
+          "composition": ""
+        }
+      ]
+    },
+    {
+      "drugstore": "USA",
+      "drugs": [
+        {
+          "title": "Валидол",
+          "purpose": "heartache",
+          "composition": ""
+        },
+        {
+          "title": "Гидрокодон",
+          "purpose": "headache",
+          "composition": ""
+        },
+        {
+          "title": "Ацетаминофен",
+          "purpose": "headache",
+          "composition": ""
+        },
+        {
+          "title": "Калпол",
+          "purpose": "headache",
+          "composition": ""
+        },
+        {
+          "title": "Симвастатин",
+          "purpose": "cholesterol",
+          "composition": ""
+        },
+        {
+          "title": "Лизиноприл",
+          "purpose": "high blood pressure",
+          "composition": ""
+        },
+        {
+          "title": "Метформин",
+          "purpose": "diabetes",
+          "composition": ""
+        },
+        {
+          "title": "Липитор",
+          "purpose": "cholesterol",
+          "composition": ""
+        },
+        {
+          "title": "Алпразолам",
+          "purpose": "sedative",
+          "composition": ""
+        }
+      ]
+    },
+    {
+      "drugstore": "Brazil",
+      "drugs": [
+        {
+          "title": "Neosaldina",
+          "purpose": "headache",
+          "composition": ""
+        },
+        {
+          "title": "Novalgina",
+          "purpose": "headache",
+          "composition": ""
+        },
+        {
+          "title": "água oxigenada",
+          "purpose": "Hydrogen peroxide",
+          "composition": ""
+        },
+        {
+          "title": "Merthiolate",
+          "purpose": "antiseptic",
+          "composition": ""
+        },
+        {
+          "title": "Povidine",
+          "purpose": "antiseptic",
+          "composition": ""
+        },
+        {
+          "title": "Advil extra alívio",
+          "purpose": "painkiller",
+          "composition": ""
+        }
+      ]
+    },
+    {
+      "drugstore": "South Africa",
+      "drugs": [
+        {
+          "title": "One",
+          "purpose": "headache",
+          "composition": ""
+        }
+      ]
+    },
+    {
+      "drugstore": "Australia",
+      "drugs": [
+        {
+          "title": "Neosaldina",
+          "purpose": "headache",
+          "composition": ""
+        },
+        {
+          "title": "Novalgina",
+          "purpose": "headache",
+          "composition": ""
+        },
+        {
+          "title": "água oxigenada",
+          "purpose": "Hydrogen peroxide",
+          "composition": ""
+        },
+        {
+          "title": "Merthiolate",
+          "purpose": "antiseptic",
+          "composition": ""
+        },
+        {
+          "title": "Povidine",
+          "purpose": "antiseptic",
+          "composition": ""
+        },
+        {
+          "title": "Advil extra alívio",
+          "purpose": "painkiller",
+          "composition": ""
+        },
+        {
+          "title": "One",
+          "purpose": "headache",
+          "composition": ""
+        },
+        {
+          "title": "Валидол",
+          "purpose": "heartache",
+          "composition": ""
+        },
+        {
+          "title": "Гидрокодон",
+          "purpose": "headache",
+          "composition": ""
+        },
+        {
+          "title": "Ацетаминофен",
+          "purpose": "headache",
+          "composition": ""
+        },
+        {
+          "title": "Калпол",
+          "purpose": "headache",
+          "composition": ""
+        },
+        {
+          "title": "Симвастатин",
+          "purpose": "cholesterol",
+          "composition": ""
+        },
+        {
+          "title": "Лизиноприл",
+          "purpose": "high blood pressure",
+          "composition": ""
+        },
+        {
+          "title": "Метформин",
+          "purpose": "diabetes",
+          "composition": ""
+        },
+        {
+          "title": "Липитор",
+          "purpose": "cholesterol",
+          "composition": ""
+        },
+        {
+          "title": "Алпразолам",
+          "purpose": "sedative",
+          "composition": ""
+        }
+      ]
+    }
+  ]
+}

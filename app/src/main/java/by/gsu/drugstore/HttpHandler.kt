@@ -21,8 +21,8 @@ class HttpHandler {
             val conn = url.openConnection() as HttpURLConnection
             conn.requestMethod = "GET"
             // read the response
-            val `in` = BufferedInputStream(conn.inputStream)
-            response = convertStreamToString(`in`)
+            val into = BufferedInputStream(conn.inputStream)
+            response = convertStreamToString(into)
         } catch (e: MalformedURLException) {
             Log.e(TAG, "MalformedURLException: " + e.message)
         } catch (e: ProtocolException) {
@@ -36,8 +36,8 @@ class HttpHandler {
         return response
     }
 
-    private fun convertStreamToString(`is`: InputStream): String {
-        val reader = BufferedReader(InputStreamReader(`is`))
+    private fun convertStreamToString(iz: InputStream): String {
+        val reader = BufferedReader(InputStreamReader(iz))
         val sb = StringBuilder()
 
         var line: String
@@ -50,7 +50,7 @@ class HttpHandler {
             e.printStackTrace()
         } finally {
             try {
-                `is`.close()
+                iz.close()
             } catch (e: IOException) {
                 e.printStackTrace()
             }

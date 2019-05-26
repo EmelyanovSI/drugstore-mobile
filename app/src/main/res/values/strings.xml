@@ -7,4 +7,10 @@
     <string name="loading">Loading</string>
 
     <string name="start">START</string>
+
+    <string-array name="query_suggestions">
+        <item>Ибупрофен</item>
+        <item>Абакавир</item>
+        <item>Панадол</item>
+    </string-array>
 </resources>

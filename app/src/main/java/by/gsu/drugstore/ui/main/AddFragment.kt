@@ -1,3 +1,4 @@
+/*
 package by.gsu.drugstore.ui.main
 
 import androidx.lifecycle.ViewModelProviders
@@ -31,3 +32,4 @@ class AddFragment : Fragment() {
     }
 
 }
+*/

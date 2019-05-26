@@ -5,10 +5,11 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/list_fragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.main.ListFragment">
+        android:layout_height="match_parent">
 
-    <ExpandableListView
+    <!--tools:context=".ui.main.ListFragment"-->
+
+    <!--<ExpandableListView
             android:id="@+id/expandable_list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -18,6 +19,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
 
-            app:layout_constraintVertical_bias="0.0"/>
+            app:layout_constraintVertical_bias="0.0"/>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
