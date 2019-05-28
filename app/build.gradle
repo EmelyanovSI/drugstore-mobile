@@ -39,7 +39,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha03'
 
     //added
-    /*searach*/ implementation 'com.miguelcatalan:materialsearchview:1.4.0'
+    /*search*/ implementation 'com.miguelcatalan:materialsearchview:1.4.0'
 
     implementation 'androidx.room:room-runtime:2.1.0-alpha06'
     annotationProcessor 'androidx.room:room-compiler:2.1.0-alpha06'
@@ -47,4 +47,7 @@ dependencies {
     // implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha4' // constraintlayout new // dont work
 
     implementation 'com.google.android.material:material:1.1.0-alpha05' // MaterialComponents
+
+    //jdbc
+    //implementation 'mysql:mysql-connector-java:5.1.6'
 }

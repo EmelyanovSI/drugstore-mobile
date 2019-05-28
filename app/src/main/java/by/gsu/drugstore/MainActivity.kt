@@ -20,9 +20,13 @@ import android.widget.Toast
 import android.os.AsyncTask
 import android.speech.RecognizerIntent
 import android.text.TextUtils
+import android.view.MenuItem
 import org.json.JSONArray
 import java.io.InputStream
 import java.lang.Exception
+//import java.sql.Connection
+//import java.sql.DriverManager
+import java.sql.*
 
 @Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
@@ -39,8 +43,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
         setSupportActionBar(tool_bar)
+
+        //connector()
+
         GetContacts().execute()
         searchViewCode()
+
     }
 
     private fun searchViewCode() {
@@ -110,10 +118,21 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_list, menu)
         val mMenuSearchItem = menu?.findItem(R.id.action_search)
-        //val mMenuAddItem = menu?.findItem(R.id.action_add)
         search_view.setMenuItem(mMenuSearchItem)
-        //.setMenuItem(mMenuAddItem)
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item != null) {
+            when (item.itemId) {
+                R.id.action_add -> {
+                    val intent = Intent(this, SecondActivity::class.java)
+                    startActivity(intent)
+                    return true
+                }
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     @Suppress("DEPRECATION")
@@ -130,6 +149,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun doInBackground(vararg arg0: Void): String? {
+
+            connector()
+
             sh = HttpHandler()
             jsonStr = sh.makeServiceCall(url)
             Log.e("Drugstore", "Response from url: $jsonStr")
@@ -214,6 +236,7 @@ class MainActivity : AppCompatActivity() {
     @Throws(JSONException::class)
     fun search(jsonObj: JSONObject, newText: String, onePurpose: String) {
         // TODO: delete try catch + parsing
+        // TODO: fix search
         try {
             val purposes = arrayListOf<String>()
             val drugsArray = arrayListOf<JSONArray>(
@@ -323,6 +346,64 @@ class MainActivity : AppCompatActivity() {
                 Toast.LENGTH_LONG
             )
                 .show()
+        }
+    }
+
+    /*
+    Server: db.gomel.ximxim.com
+    DB: medication
+    user: user
+    password: e4GeZVGpbNUKwU8v
+    */
+
+    private fun connector() {
+
+
+        /*val conn: Connection
+        try {
+
+            Class.forName("net.sourceforge.jtds.jdbc.Driver")
+            conn = DriverManager.getConnection(
+                "jdbc:jtds:mysql://db.gomel.ximxim.com:3308/medication",
+                "user",
+                "e4GeZVGpbNUKwU8v"
+            )
+
+            val stmt = conn.createStatement()
+            val result = stmt.executeQuery("SELECT * FROM drugsbel")
+            while(result.next()) {
+                val arr1 = result.getString(1)
+                val arr2 = result.getString(2)
+                val arr3 = result.getString(3)
+            }
+            conn.close()
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }*/
+
+        val conn: Connection
+        val url = "jdbc:mysql://db.gomel.ximxim.com:3308/"
+        val dbName = "medication"
+        val driver = "com.mysql.jdbc.Driver"
+        try {
+            Class.forName("com.mysql.jdbc.Driver")
+            //Class.forName("com.mysql.jdbc.Driver").newInstance()
+            conn = DriverManager.getConnection(
+                "jdbc:mysql://db.gomel.ximxim.com:3308/medication",
+                "user",
+                "e4GeZVGpbNUKwU8v"
+            )
+            val stmt = conn.createStatement()
+            val result = stmt.executeQuery("SELECT * FROM drugsbel")
+            while(result.next()) {
+                val arr1 = result.getString(1)
+                val arr2 = result.getString(2)
+                val arr3 = result.getString(3)
+            }
+            conn.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 

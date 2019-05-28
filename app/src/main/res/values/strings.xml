@@ -8,6 +8,19 @@
 
     <string name="start">START</string>
 
+    <string name="name">Низвание</string>
+    <string name="composition">Действующее вещество</string>
+    <string name="country">Страна</string>
+
+    <string name="save">Сохранить</string>
+    <string name="reset">Очистить</string>
+
+    <string name="add_drug">Добавление лекарства</string>
+
+    <string name="name_sample">Парацетамол</string>
+    <string name="composition_sample">paracetamol</string>
+    <string name="country_sample">Беларусь</string>
+
     <string-array name="query_suggestions">
         <item>Ибупрофен</item>
         <item>Абакавир</item>
