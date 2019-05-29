@@ -358,6 +358,26 @@ class MainActivity : AppCompatActivity() {
 
     private fun connector() {
 
+        /*val conn: Connection
+        try {
+            //Class.forName("com.mysql.jdbc.Driver")
+            Class.forName("com.mysql.jdbc.Driver").newInstance()
+            conn = DriverManager.getConnection(
+                "jdbc:mysql://192.168.100.2:8080/test",
+                "root",
+                "usbw"
+            )
+            val stmt = conn.createStatement()
+            val result = stmt.executeQuery("SELECT * FROM hotel")
+            while(result.next()) {
+                val arr1 = result.getString(1)
+                val arr2 = result.getString(2)
+                val arr3 = result.getString(3)
+            }
+            conn.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }*/
 
         /*val conn: Connection
         try {
@@ -382,7 +402,7 @@ class MainActivity : AppCompatActivity() {
             e.printStackTrace()
         }*/
 
-        val conn: Connection
+        /*val conn: Connection
         val url = "jdbc:mysql://db.gomel.ximxim.com:3308/"
         val dbName = "medication"
         val driver = "com.mysql.jdbc.Driver"
@@ -404,7 +424,7 @@ class MainActivity : AppCompatActivity() {
             conn.close()
         } catch (e: Exception) {
             e.printStackTrace()
-        }
+        }*/
     }
 
     // TODO: разбить все на файлы
