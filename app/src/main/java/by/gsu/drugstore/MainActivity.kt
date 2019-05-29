@@ -13,7 +13,6 @@ import android.view.Menu
 import android.widget.SimpleAdapter
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import kotlinx.android.synthetic.main.main_activity.*
-import java.io.IOException
 import org.json.JSONException
 import org.json.JSONObject
 import android.widget.Toast
@@ -22,18 +21,18 @@ import android.speech.RecognizerIntent
 import android.text.TextUtils
 import android.view.MenuItem
 import org.json.JSONArray
-import java.io.InputStream
 import java.lang.Exception
-//import java.sql.Connection
-//import java.sql.DriverManager
-import java.sql.*
+import java.io.*
+import java.net.URL
+import java.net.URLEncoder
+
 
 @Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
 
     private var drugList: ArrayList<HashMap<String, String>> = ArrayList()
     private var drugListSearch: ArrayList<HashMap<String, String>> = ArrayList()
-    private val url = "https://by.gsu.drugstore/drugstore/"
+    private val url = "http://192.168.100.2:8080/get_all_drugs.php"
     var sh = HttpHandler()
     var jsonStr: String? = null
     private var pDialog: ProgressDialog? = null
@@ -43,12 +42,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
         setSupportActionBar(tool_bar)
-
-        //connector()
-
         GetContacts().execute()
         searchViewCode()
-
     }
 
     private fun searchViewCode() {
@@ -150,7 +145,27 @@ class MainActivity : AppCompatActivity() {
 
         override fun doInBackground(vararg arg0: Void): String? {
 
-            connector()
+
+
+            /*
+            Server: db.gomel.ximxim.com
+            DB: medication
+            user: user
+            password: e4GeZVGpbNUKwU8v
+            */
+
+            /*val link = "http://192.168.100.2:8080/get_all_drugs.php"
+
+            val username = "uuu"
+            val password = "ppp"
+
+            val url = URL(link)
+            var data = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8")
+            data += "&" + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8")
+            val conn = url.openConnection()
+            val wr = OutputStreamWriter(conn.getOutputStream())
+            wr.write(data)
+            val reader = BufferedReader(InputStreamReader(conn.getInputStream()))*/
 
             sh = HttpHandler()
             jsonStr = sh.makeServiceCall(url)
@@ -355,77 +370,6 @@ class MainActivity : AppCompatActivity() {
     user: user
     password: e4GeZVGpbNUKwU8v
     */
-
-    private fun connector() {
-
-        /*val conn: Connection
-        try {
-            //Class.forName("com.mysql.jdbc.Driver")
-            Class.forName("com.mysql.jdbc.Driver").newInstance()
-            conn = DriverManager.getConnection(
-                "jdbc:mysql://192.168.100.2:8080/test",
-                "root",
-                "usbw"
-            )
-            val stmt = conn.createStatement()
-            val result = stmt.executeQuery("SELECT * FROM hotel")
-            while(result.next()) {
-                val arr1 = result.getString(1)
-                val arr2 = result.getString(2)
-                val arr3 = result.getString(3)
-            }
-            conn.close()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }*/
-
-        /*val conn: Connection
-        try {
-
-            Class.forName("net.sourceforge.jtds.jdbc.Driver")
-            conn = DriverManager.getConnection(
-                "jdbc:jtds:mysql://db.gomel.ximxim.com:3308/medication",
-                "user",
-                "e4GeZVGpbNUKwU8v"
-            )
-
-            val stmt = conn.createStatement()
-            val result = stmt.executeQuery("SELECT * FROM drugsbel")
-            while(result.next()) {
-                val arr1 = result.getString(1)
-                val arr2 = result.getString(2)
-                val arr3 = result.getString(3)
-            }
-            conn.close()
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }*/
-
-        /*val conn: Connection
-        val url = "jdbc:mysql://db.gomel.ximxim.com:3308/"
-        val dbName = "medication"
-        val driver = "com.mysql.jdbc.Driver"
-        try {
-            Class.forName("com.mysql.jdbc.Driver")
-            //Class.forName("com.mysql.jdbc.Driver").newInstance()
-            conn = DriverManager.getConnection(
-                "jdbc:mysql://db.gomel.ximxim.com:3308/medication",
-                "user",
-                "e4GeZVGpbNUKwU8v"
-            )
-            val stmt = conn.createStatement()
-            val result = stmt.executeQuery("SELECT * FROM drugsbel")
-            while(result.next()) {
-                val arr1 = result.getString(1)
-                val arr2 = result.getString(2)
-                val arr3 = result.getString(3)
-            }
-            conn.close()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }*/
-    }
 
     // TODO: разбить все на файлы
 }
