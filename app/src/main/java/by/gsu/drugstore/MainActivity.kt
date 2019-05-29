@@ -23,9 +23,6 @@ import android.view.MenuItem
 import org.json.JSONArray
 import java.lang.Exception
 import java.io.*
-import java.net.URL
-import java.net.URLEncoder
-
 
 @Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
@@ -144,29 +141,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun doInBackground(vararg arg0: Void): String? {
-
-
-
-            /*
-            Server: db.gomel.ximxim.com
-            DB: medication
-            user: user
-            password: e4GeZVGpbNUKwU8v
-            */
-
-            /*val link = "http://192.168.100.2:8080/get_all_drugs.php"
-
-            val username = "uuu"
-            val password = "ppp"
-
-            val url = URL(link)
-            var data = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8")
-            data += "&" + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8")
-            val conn = url.openConnection()
-            val wr = OutputStreamWriter(conn.getOutputStream())
-            wr.write(data)
-            val reader = BufferedReader(InputStreamReader(conn.getInputStream()))*/
-
             sh = HttpHandler()
             jsonStr = sh.makeServiceCall(url)
             Log.e("Drugstore", "Response from url: $jsonStr")

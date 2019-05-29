@@ -32,7 +32,6 @@ class HttpHandler {
         } catch (e: Exception) {
             Log.e(TAG, "Exception: " + e.message)
         }
-
         return response
     }
 
@@ -54,13 +53,11 @@ class HttpHandler {
             } catch (e: IOException) {
                 e.printStackTrace()
             }
-
         }
         return sb.toString()
     }
 
     companion object {
-
         private val TAG = HttpHandler::class.java.simpleName
     }
 }
