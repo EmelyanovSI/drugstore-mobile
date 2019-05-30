@@ -1,10 +1,11 @@
-package by.gsu.drugstore
+package by.gsu.drugstore.activity
 
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.app.ProgressDialog
 import android.os.AsyncTask
+import by.gsu.drugstore.R
 import kotlinx.android.synthetic.main.activity_second.*
 import kotlinx.android.synthetic.main.main_activity.tool_bar
 

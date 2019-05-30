@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package by.gsu.drugstore
+package by.gsu.drugstore.activity
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -20,7 +20,16 @@ import android.os.AsyncTask
 import android.speech.RecognizerIntent
 import android.text.TextUtils
 import android.view.MenuItem
+import by.gsu.drugstore.HttpHandler
+import by.gsu.drugstore.R
+import by.gsu.drugstore.model.Drug
+import by.gsu.drugstore.model.Drugs
+import by.gsu.drugstore.rest.ApiClient
+import by.gsu.drugstore.rest.ApiInterface
 import org.json.JSONArray
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.lang.Exception
 import java.io.*
 
@@ -41,6 +50,26 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(tool_bar)
         GetContacts().execute()
         searchViewCode()
+
+
+        /*val API_KEY = ""
+        if (API_KEY.isEmpty())
+            Toast.makeText(applicationContext, "API_KEY is empty", Toast.LENGTH_LONG).show()
+
+        val client = ApiClient()
+        val apiService = client.getClient()?.create(ApiInterface::class.java)
+
+        val call = apiService?.getAllDrugs(API_KEY)*/
+        /*call?.enqueue(Callback<Drugs> {
+            fun onResponse(call: Call<Drugs>, response: Response<Drugs>) {
+                val drug = response.body().getDrugs()
+            }
+
+            fun onFailure(call: Call<Drugs>, t: Throwable) {
+                val drug = response.body().getDrugs()
+            }
+        })*/
+
     }
 
     private fun searchViewCode() {
@@ -343,6 +372,9 @@ class MainActivity : AppCompatActivity() {
     DB: medication
     user: user
     password: e4GeZVGpbNUKwU8v
+
+    http://192.168.100.2:8080/
+    192.168.100.2:8080
     */
 
     // TODO: разбить все на файлы
