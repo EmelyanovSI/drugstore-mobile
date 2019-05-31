@@ -20,8 +20,7 @@ import android.os.AsyncTask
 import android.speech.RecognizerIntent
 import android.text.TextUtils
 import android.view.MenuItem
-import by.gsu.drugstore.HttpHandler
-import by.gsu.drugstore.R
+import by.gsu.drugstore.*
 import by.gsu.drugstore.model.Drug
 import by.gsu.drugstore.model.Drugs
 import by.gsu.drugstore.rest.ApiClient
@@ -30,6 +29,8 @@ import org.json.JSONArray
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.Exception
 import java.io.*
 
@@ -48,27 +49,120 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
         setSupportActionBar(tool_bar)
-        GetContacts().execute()
+
+        /*val retrofit = Retrofit.Builder()
+            .baseUrl("http://192.168.100.2:8080/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val api = retrofit.create(RegisterAPI::class.java)
+        val call = api.dafter("ggg", "ggg")
+
+        call.enqueue(object : Callback<Value> {
+            override fun onFailure(call: Call<Value>?, t: Throwable?) {
+                t?.printStackTrace()
+                Toast.makeText(applicationContext, "arrorF", Toast.LENGTH_LONG).show()
+            }
+
+            override fun onResponse(call: Call<Value>?, response: Response<Value>?) {
+                val value = response?.body()?.getValue()
+                val message = response?.body()?.getMessage()
+
+                if (value.equals("1")) {
+                    Toast.makeText(applicationContext, "arrorR", Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(applicationContext, "arrorRR", Toast.LENGTH_LONG).show()
+                }
+            }
+
+        })*/
+
+
+        /*val retrofit = Retrofit.Builder()
+            .baseUrl("http://192.168.100.2:8080/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        val jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi::class.java)
+
+        val call = jsonPlaceHolderApi.getPosts()
+
+        call.enqueue(object : Callback<List<Drug>> {
+            override fun onFailure(call: Call<List<Drug>>?, t: Throwable?) {
+
+            }
+
+            override fun onResponse(call: Call<List<Drug>>?, response: Response<List<Drug>>?) {
+                if (!(response?.isSuccessful!!)) {
+                    return
+                }
+
+                val posts = response.body()
+
+                var content = ""
+                for (post: Drug in posts!!) {
+                    content += post.getName() + '\n'
+                }
+
+            }
+
+        })*/
+
+
+        /*val retrofit = Retrofit.Builder()
+            .baseUrl("http://192.168.100.2:8080/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        val jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi::class.java)
+
+        val call = jsonPlaceHolderApi.getPosts()
+
+        call.enqueue(object : Callback<List<Drug>> {
+            override fun onFailure(call: Call<List<Drug>>?, t: Throwable?) {
+
+            }
+
+            override fun onResponse(call: Call<List<Drug>>?, response: Response<List<Drug>>?) {
+                if (!(response?.isSuccessful!!)) {
+                    return
+                }
+
+                val posts = response.body()
+
+                var content = ""
+                for (post: Drug in posts!!) {
+                    content += post.getName() + '\n'
+                }
+
+            }
+
+        })*/
+
+
+
+        //GetContacts().execute()
         searchViewCode()
 
 
-        /*val API_KEY = ""
+        val API_KEY = "http://192.168.100.2:8080/"
         if (API_KEY.isEmpty())
             Toast.makeText(applicationContext, "API_KEY is empty", Toast.LENGTH_LONG).show()
 
         val client = ApiClient()
         val apiService = client.getClient()?.create(ApiInterface::class.java)
 
-        val call = apiService?.getAllDrugs(API_KEY)*/
-        /*call?.enqueue(Callback<Drugs> {
-            fun onResponse(call: Call<Drugs>, response: Response<Drugs>) {
-                val drug = response.body().getDrugs()
+        val call = apiService?.getAllDrugs(API_KEY)
+        call?.enqueue(object : Callback<Drugs> {
+            override fun onFailure(call: Call<Drugs>?, t: Throwable?) {
+                Toast.makeText(applicationContext, "error", Toast.LENGTH_LONG).show()
             }
 
-            fun onFailure(call: Call<Drugs>, t: Throwable) {
-                val drug = response.body().getDrugs()
+            override fun onResponse(call: Call<Drugs>?, response: Response<Drugs>?) {
+                val statusCode = response?.code()
+                val drugs = response?.body()?.getDrugs()
+                Toast.makeText(applicationContext, "easy win", Toast.LENGTH_LONG).show()
             }
-        })*/
+
+        })
 
     }
 
