@@ -4,25 +4,18 @@ import com.google.gson.annotations.SerializedName
 
 class Drug(
     @SerializedName("name")
-    private var name: String,
+    private var name: String = "Constructor value",
     @SerializedName("composition")
-    private var composition: String,
+    private var composition: String = "Constructor value",
     @SerializedName("country")
-    private var country: String
+    private var country: String = "Constructor value"
 ) {
-
-    /*@SerializedName("country")
-    private lateinit var country: String
-    @SerializedName("name")
-    private lateinit var name: String
-    @SerializedName("composition")
-    private lateinit var composition: String*/
 
     fun setName(name: String) {
         this@Drug.name = name
     }
 
-    fun getName(): String? {
+    fun getName(): String {
         return name
     }
 
@@ -30,7 +23,7 @@ class Drug(
         this@Drug.composition = composition
     }
 
-    fun getComposition(): String? {
+    fun getComposition(): String {
         return composition
     }
 
@@ -38,7 +31,7 @@ class Drug(
         this@Drug.country = country
     }
 
-    fun getCountry(): String? {
+    fun getCountry(): String {
         return country
     }
 
