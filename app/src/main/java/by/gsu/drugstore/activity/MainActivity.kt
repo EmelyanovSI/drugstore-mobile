@@ -1,67 +1,117 @@
-@file:Suppress("DEPRECATION")
-
 package by.gsu.drugstore.activity
 
-import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.ProgressDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
-import android.widget.SimpleAdapter
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import kotlinx.android.synthetic.main.main_activity.*
-import org.json.JSONException
-import org.json.JSONObject
 import android.widget.Toast
-import android.os.AsyncTask
 import android.speech.RecognizerIntent
 import android.text.TextUtils
 import android.view.MenuItem
+import androidx.recyclerview.widget.LinearLayoutManager
 import by.gsu.drugstore.*
+import by.gsu.drugstore.adapter.DrugsAdapter
+import by.gsu.drugstore.model.Drug
 import by.gsu.drugstore.model.DrugsResponse
 import by.gsu.drugstore.rest.ApiClient
-import by.gsu.drugstore.rest.ApiInterface
-import org.json.JSONArray
+import by.gsu.drugstore.rest.API
+import kotlinx.android.synthetic.main.tool_bar.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.Exception
-import java.io.*
 
-@Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
 
-    private var drugList: ArrayList<HashMap<String, String>> = ArrayList()
-    private var drugListSearch: ArrayList<HashMap<String, String>> = ArrayList()
-    private val url = "http://192.168.100.2:8080/get_all_drugs.php"
-    var sh = HttpHandler()
-    var jsonStr: String? = null
-    private var pDialog: ProgressDialog? = null
-    private lateinit var json: String
+    private var drugs: List<Drug> = emptyList()
+    private var message: String = ""
+    private var statusCode: Int = 0
+    private var success: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
         setSupportActionBar(tool_bar)
-        GetContacts().execute()
         searchViewCode()
+        recycler_view.layoutManager = LinearLayoutManager(this@MainActivity)
+    }
 
-        val apiService = ApiClient().getClient()?.create(ApiInterface::class.java)
-        val call = apiService?.getAllDrugs()
+    override fun onStart() {
+        super.onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
+    }
+
+    override fun onResume() {
+        fillingData("all")
+        super.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+    }
+
+    override fun onBackPressed() {
+        if (search_view.isSearchOpen) {
+            search_view.closeSearch()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_list, menu)
+        val mMenuSearchItem = menu?.findItem(R.id.action_search)
+        search_view.setMenuItem(mMenuSearchItem)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.action_add -> {
+                val intent = Intent(this, SecondActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.action_all_list -> {
+                fillingData("all")
+                Toast.makeText(applicationContext, resources.getString(R.string.all), Toast.LENGTH_SHORT).show()
+            }
+            R.id.action_belarus_list -> {
+                fillingData("drugsbel")
+                Toast.makeText(applicationContext, resources.getString(R.string.belarus), Toast.LENGTH_SHORT).show()
+            }
+            R.id.action_turkey_list -> {
+                fillingData("drugsturkey")
+                Toast.makeText(applicationContext, resources.getString(R.string.turkey), Toast.LENGTH_SHORT).show()
+            }
+            R.id.action_usa_list -> {
+                fillingData("drugsusa")
+                Toast.makeText(applicationContext, resources.getString(R.string.usa), Toast.LENGTH_SHORT).show()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun fillingData(tableName: String) {
+        val apiService = ApiClient().getClient()?.create(API::class.java)
+        val call = apiService?.getDrugs(tableName)
         call?.enqueue(object : Callback<DrugsResponse> {
             override fun onFailure(call: Call<DrugsResponse>, t: Throwable) {
-                Toast.makeText(applicationContext, "Drugs DB is not Response", Toast.LENGTH_LONG).show()
+                //TODO: form memory method
+                Toast.makeText(applicationContext, resources.getString(R.string.loading1), Toast.LENGTH_SHORT).show()
             }
 
             override fun onResponse(call: Call<DrugsResponse>, response: Response<DrugsResponse>) {
-                val statusCode = response.code()
-                val drugs = response.body().getDrugs()
-                val success = response.body().getSuccess()
-                val message = response.body().getMessage()
-                Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
+                statusCode = response.code()
+                success = response.body().getSuccess()
+                message = response.body().getMessage()
+                drugs = response.body().getDrugs()
+                recycler_view.adapter = DrugsAdapter(drugs, R.layout.list_item, applicationContext)
+                Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -74,43 +124,52 @@ class MainActivity : AppCompatActivity() {
 
         search_view.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                fillingListView(drugListSearch)
+                //recycler_view.adapter = DrugsAdapter(drugs, R.layout.list_item, applicationContext)
                 Toast.makeText(applicationContext, query, Toast.LENGTH_SHORT).show()
                 return false
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                drugListSearch = ArrayList()
-                val onePurpose = ""
-                if (newText.isNotEmpty()) {
-                    if (jsonStr != null) {
-                        try {
-                            val jsonObj = JSONObject(jsonStr)
-                            search(jsonObj, newText, onePurpose)
-                        } catch (e: JSONException) {
-                            catchException(e)
-                        }
-                    } else {
-                        try {
-                            val jsonObj = JSONObject(loadJSONFromAsset())
-                            search(jsonObj, newText, onePurpose)
-                        } catch (e: JSONException) {
-                            catchException(e)
-                        }
+                val apiService = ApiClient().getClient()?.create(API::class.java)
+                val call = apiService?.searchDrugs(newText)
+                call?.enqueue(object : Callback<DrugsResponse> {
+                    override fun onFailure(call: Call<DrugsResponse>, t: Throwable) {
+                        //TODO: form memory method
+                        Toast.makeText(
+                            applicationContext,
+                            resources.getString(R.string.loading1),
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
                     }
-                    fillingListView(drugListSearch)
-                } else fillingListView(drugList)
+
+                    override fun onResponse(call: Call<DrugsResponse>, response: Response<DrugsResponse>) {
+                        statusCode = response.code()
+                        success = response.body().getSuccess()
+                        message = response.body().getMessage()
+                        drugs = response.body().getDrugs()
+                        recycler_view.adapter = DrugsAdapter(drugs, R.layout.list_item, applicationContext)
+                        Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
+                    }
+                })
+
                 return true
             }
         })
 
         search_view.setOnSearchViewListener(object : MaterialSearchView.SearchViewListener {
             override fun onSearchViewShown() {
-
+                /*val set = ConstraintSet()
+                set.clone(main_activity)
+                set.connect(R.id.recycler_view, ConstraintSet.TOP, R.id.search_view, ConstraintSet.BOTTOM)
+                set.applyTo(main_activity)*/
             }
 
             override fun onSearchViewClosed() {
-                fillingListView(drugList)
+                /*val set = ConstraintSet()
+                set.clone(main_activity)
+                set.connect(R.id.recycler_view, ConstraintSet.TOP, R.id.tool_bar, ConstraintSet.BOTTOM)
+                set.applyTo(main_activity)*/
             }
         })
     }
@@ -128,248 +187,6 @@ class MainActivity : AppCompatActivity() {
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
-
-    // TODO: this
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_list, menu)
-        val mMenuSearchItem = menu?.findItem(R.id.action_search)
-        search_view.setMenuItem(mMenuSearchItem)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item != null) {
-            when (item.itemId) {
-                R.id.action_add -> {
-                    val intent = Intent(this, SecondActivity::class.java)
-                    startActivity(intent)
-                    return true
-                }
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    @Suppress("DEPRECATION")
-    @SuppressLint("StaticFieldLeak")
-    private inner class GetContacts : AsyncTask<Void, Void, String?>() {
-        private var resp: String? = null
-
-        override fun onPreExecute() {
-            super.onPreExecute()
-            pDialog = ProgressDialog(this@MainActivity)
-            pDialog?.setMessage("Please wait...")
-            pDialog?.setCancelable(false)
-            pDialog?.show()
-        }
-
-        override fun doInBackground(vararg arg0: Void): String? {
-            sh = HttpHandler()
-            jsonStr = sh.makeServiceCall(url)
-            Log.e("Drugstore", "Response from url: $jsonStr")
-            if (jsonStr != null) {
-                try {
-                    val jsonObj = JSONObject(jsonStr)
-                    parsing(jsonObj)
-                    resp = "that JSON"
-                } catch (e: JSONException) {
-                    catchException(e)
-                }
-            } else {
-                try {
-                    val jsonObj = JSONObject(loadJSONFromAsset())
-                    parsing(jsonObj)
-                    resp = "this JSON"
-                } catch (e: JSONException) {
-                    catchException(e)
-                }
-            }
-            return resp
-        }
-
-        override fun onPostExecute(result: String?) {
-            super.onPostExecute(result)
-            if (pDialog!!.isShowing)
-                pDialog!!.dismiss()
-            fillingListView(drugList)
-        }
-    }
-
-    override fun onBackPressed() {
-        if (search_view.isSearchOpen) {
-            search_view.closeSearch()
-        } else {
-            super.onBackPressed()
-        }
-    }
-
-    fun loadJSONFromAsset(): String {
-        try {
-            val iz: InputStream = try {
-                this@MainActivity.assets.open("drugstore.json")
-            } catch (ex: IOException) {
-                this@MainActivity.assets.open("oldDrugstore.json")
-            }
-            val size = iz.available()
-            val buffer = ByteArray(size)
-            iz.read(buffer)
-            iz.close()
-            json = String(buffer)
-        } catch (ex: IOException) {
-            ex.printStackTrace()
-        }
-        return json
-    }
-
-    fun fillingListView(arrLst: ArrayList<HashMap<String, String>>) {
-        val adapter = SimpleAdapter(
-            this@MainActivity,
-            arrLst,
-            R.layout.list_item,
-            arrayOf("title", "purpose", "drugstore"),
-            intArrayOf(R.id.title, R.id.purpose, R.id.drugstore)
-        )
-        list_view.adapter = adapter
-    }
-
-    private fun addToDrugListSearch(i: Int, name: String, composition: String) {
-        val oneDrug = HashMap<String, String>()
-        oneDrug["title"] = name
-        oneDrug["purpose"] = composition
-        when (i) {
-            0 -> oneDrug["drugstore"] = "Belarus"
-            1 -> oneDrug["drugstore"] = "Turkey"
-            2 -> oneDrug["drugstore"] = "USA"
-            else -> oneDrug["drugstore"] = "undefined"
-        }
-        drugListSearch.add(oneDrug)
-    }
-
-    @Throws(JSONException::class)
-    fun search(jsonObj: JSONObject, newText: String, onePurpose: String) {
-        // TODO: delete try catch + parsing
-        // TODO: fix search
-        try {
-            val purposes = arrayListOf<String>()
-            val drugsArray = arrayListOf<JSONArray>(
-                jsonObj.getJSONArray("drugsbel"),
-                jsonObj.getJSONArray("drugsturkey"),
-                jsonObj.getJSONArray("drugsusa")
-            )
-            for (i in 0 until jsonObj.length()) {
-                for (j in 0 until drugsArray[i].length()) {
-                    val drug = drugsArray[i].getJSONObject(j)
-                    val name = drug.getString("name")
-                    val composition = drug.getString("composition")
-                    if (name.contains(newText, ignoreCase = true)) {
-                        var len = 0
-                        for (k in 0 until purposes.size)
-                            if (composition != purposes[k]) len++
-                            else break
-                        if (len == purposes.size) purposes.add(composition)
-                        addToDrugListSearch(i, name, composition)
-                    } else {
-                        for (k in 0 until purposes.size) {
-                            if (composition.contains(purposes[k], ignoreCase = true)) {
-                                addToDrugListSearch(i, name, composition)
-                                break
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            // TODO: fix search
-            var onePurposeThis = onePurpose
-            val drugstores = jsonObj.getJSONArray("drugstores")
-            for (i in 0 until drugstores.length()) {
-                val country = drugstores.getJSONObject(i)
-                val drugstore = country.getString("drugstore")
-                val drugs = country.getJSONArray("drugs")
-                for (j in 0 until drugs.length()) {
-                    val drug = drugs.getJSONObject(j)
-                    val title = drug.getString("title")
-                    val purpose = drug.getString("purpose")
-                    if (title.contains(newText, ignoreCase = true))
-                        onePurposeThis = purpose
-                    if (onePurposeThis == purpose) {
-                        val oneDrug = HashMap<String, String>()
-                        oneDrug["title"] = title
-                        oneDrug["purpose"] = purpose
-                        oneDrug["drugstore"] = drugstore
-                        drugListSearch.add(oneDrug)
-                    }
-                }
-            }
-        }
-    }
-
-    @Throws(JSONException::class)
-    fun parsing(jsonObj: JSONObject) {
-        try {
-            val drugsArray = arrayListOf<JSONArray>(
-                jsonObj.getJSONArray("drugsbel"),
-                jsonObj.getJSONArray("drugsturkey"),
-                jsonObj.getJSONArray("drugsusa")
-            )
-            for (i in 0 until jsonObj.length()) {
-                for (j in 0 until drugsArray[i].length()) {
-                    val drug = drugsArray[i].getJSONObject(j)
-                    val name = drug.getString("name")
-                    val composition = drug.getString("composition")
-                    val oneDrug = HashMap<String, String>()
-                    oneDrug["title"] = name
-                    oneDrug["purpose"] = composition
-                    when (i) {
-                        0 -> oneDrug["drugstore"] = "Belarus"
-                        1 -> oneDrug["drugstore"] = "Turkey"
-                        2 -> oneDrug["drugstore"] = "USA"
-                        else -> oneDrug["drugstore"] = "undefined"
-                    }
-                    drugList.add(oneDrug)
-                }
-            }
-        } catch (e: Exception) {
-            val drugstores = jsonObj.getJSONArray("drugstores")
-            for (i in 0 until drugstores.length()) {
-                val country = drugstores.getJSONObject(i)
-                val drugstore = country.getString("drugstore")
-                val drugs = country.getJSONArray("drugs")
-                for (j in 0 until drugs.length()) {
-                    val drug = drugs.getJSONObject(j)
-                    val title = drug.getString("title")
-                    val purpose = drug.getString("purpose")
-                    val oneDrug = HashMap<String, String>()
-                    oneDrug["title"] = title
-                    oneDrug["purpose"] = purpose
-                    oneDrug["drugstore"] = drugstore
-                    drugList.add(oneDrug)
-                }
-            }
-        }
-    }
-
-    fun catchException(e: JSONException) {
-        Log.e("Drugstore", "Json parsing error: " + e.message)
-        runOnUiThread {
-            Toast.makeText(
-                applicationContext,
-                "Json parsing error: " + e.message,
-                Toast.LENGTH_LONG
-            )
-                .show()
-        }
-    }
-
-    /*
-    Server: db.gomel.ximxim.com
-    DB: medication
-    user: user
-    password: e4GeZVGpbNUKwU8v
-
-    http://192.168.100.2:8080/
-    192.168.100.2:8080
-    */
 
     // TODO: разбить все на файлы
 }

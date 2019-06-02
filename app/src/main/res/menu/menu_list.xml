@@ -16,4 +16,20 @@
             android:title="@string/search"
             app:showAsAction="ifRoom|collapseActionView"/>
 
+    <item
+            android:id="@+id/action_all_list"
+            android:title="@string/all"/>
+
+    <item
+            android:id="@+id/action_belarus_list"
+            android:title="@string/belarus"/>
+
+    <item
+            android:id="@+id/action_turkey_list"
+            android:title="@string/turkey"/>
+
+    <item
+            android:id="@+id/action_usa_list"
+            android:title="@string/usa"/>
+
 </menu>

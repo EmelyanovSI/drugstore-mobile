@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Аптека</string>
+    <string name="add_drug">Добавить лекарство</string>
+    <string name="country">Страна</string>
+    <string name="country_sample">Беларусь</string>
+    <string name="save">Сохранить</string>
+    <string name="add">Добавить</string>
+    <string name="loading">Загрузка</string>
+    <string name="search">Поиск</string>
+    <string name="sort">Сортировать</string>
+    <string name="start">Старт</string>
+    <string name="active_substance">Действующее вещество</string>
+    <string name="all">Все</string>
+    <string name="belarus">Беларусь</string>
+    <string name="remove">Удалить</string>
+    <string name="remove_drug">Удалить лекарство</string>
+    <string name="stop">Стоп</string>
+    <string name="title">Название</string>
+    <string name="title_sample">Парацетамол</string>
+    <string name="turkey">Турция</string>
+    <string name="usa">США</string>
+    <string name="clear">Очистить</string>
+    <string name="loading1">Загрузка из интернета</string>
+    <string name="loading2">Загрузка из памяти</string>
+    <string name="loading_failed">Загрузка не удалась</string>
+</resources>

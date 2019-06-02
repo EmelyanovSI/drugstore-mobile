@@ -11,6 +11,17 @@ class Drug(
     private var country: String = "Constructor value"
 ) {
 
+    @SerializedName("id")
+    private var id: Int = 0
+
+    fun setId(id: Int) {
+        this@Drug.id = id
+    }
+
+    fun getId(): Int {
+        return id
+    }
+
     fun setName(name: String) {
         this@Drug.name = name
     }

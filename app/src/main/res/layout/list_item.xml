@@ -1,56 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
-              android:paddingTop="16dp"
-              android:paddingBottom="16dp"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="wrap_content">
 
-    <TextView
-            android:id="@+id/title"
+    <androidx.cardview.widget.CardView
+            android:layout_margin="8dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="wrap_content">
 
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+        <androidx.appcompat.widget.LinearLayoutCompat
+                android:padding="8dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            android:padding="4dp"
-            android:background="#ccc"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="16sp"
-            android:textStyle="bold"/>
+            <TextView
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
 
-    <TextView
-            android:id="@+id/purpose"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            <TextView
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
 
-            android:padding="4dp"
-            android:background="#ddd"
-            android:textColor="@color/colorAccent"
-            android:textSize="16sp"/>
+                    android:id="@+id/active_substance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
-    <TextView
-            android:id="@+id/drugstore"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            <TextView
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
 
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+                    android:id="@+id/country"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
-            android:padding="4dp"
-            android:background="#eee"
-            android:textColor="@color/colorPrimary"
-            android:textSize="16sp"
-            android:textStyle="bold"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.cardview.widget.CardView>
 
-</LinearLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

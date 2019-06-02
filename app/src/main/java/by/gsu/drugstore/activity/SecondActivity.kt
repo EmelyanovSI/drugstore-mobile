@@ -1,41 +1,47 @@
 package by.gsu.drugstore.activity
 
-import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.app.ProgressDialog
-import android.os.AsyncTask
+import android.widget.Toast
 import by.gsu.drugstore.R
+import by.gsu.drugstore.model.Drug
+import by.gsu.drugstore.model.DrugsResponse
+import by.gsu.drugstore.rest.ApiClient
+import by.gsu.drugstore.rest.API
 import kotlinx.android.synthetic.main.activity_second.*
-import kotlinx.android.synthetic.main.main_activity.tool_bar
+import kotlinx.android.synthetic.main.tool_bar.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SecondActivity : AppCompatActivity() {
 
-    private lateinit var pDialog: ProgressDialog
-    private var name: String? = null
-    private var composition: String? = null
-    private var country: String? = null
+    private var drugs: List<Drug> = emptyList()
+    private var message: String = ""
+    private var statusCode: Int = 0
+    private var success: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
         setSupportActionBar(tool_bar)
+        supportActionBar?.title = resources.getString(R.string.add_drug)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         button.setOnClickListener {
-            //AddNewDrug().execute()
-            textView.text = editText.text
-            textView2.text = editText2.text
-            textView3.text = editText3.text
+            addData()
+            editTextInput.setText("")
+            editTextInput2.setText("")
+            editTextInput3.setText("")
+
         }
 
         button2.setOnClickListener {
-            editText.setText("")
-            editText2.setText("")
-            editText3.setText("")
+            editTextInput.setText("")
+            editTextInput2.setText("")
+            editTextInput3.setText("")
         }
-
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -43,36 +49,26 @@ class SecondActivity : AppCompatActivity() {
         return true
     }
 
-    @Suppress("DEPRECATION")
-    @SuppressLint("StaticFieldLeak")
-    private inner class AddNewDrug : AsyncTask<Void, Void, String?>() {
+    private fun addData() {
+        val apiService = ApiClient().getClient()?.create(API::class.java)
+        val call = apiService?.addDrug(
+            editTextInput.text.toString(),
+            editTextInput2.text.toString(),
+            editTextInput3.text.toString()
+        )
+        call?.enqueue(object : Callback<DrugsResponse> {
+            override fun onFailure(call: Call<DrugsResponse>, t: Throwable) {
+                Toast.makeText(applicationContext, "add onFailure", Toast.LENGTH_LONG).show()
+            }
 
-        private var resp: String? = null
-
-        override fun onPreExecute() {
-            super.onPreExecute()
-            pDialog = ProgressDialog(this@SecondActivity)
-            pDialog.setMessage("Please wait...")
-            pDialog.setCancelable(false)
-            pDialog.show()
-        }
-
-        override fun doInBackground(vararg arg0: Void): String? {
-
-            resp = "this DRUG"
-
-            textView.text = editText.text
-            textView2.text = editText2.text
-            textView3.text = editText3.text
-
-            return resp
-        }
-
-        override fun onPostExecute(result: String?) {
-            super.onPostExecute(result)
-            if (pDialog.isShowing)
-                pDialog.dismiss()
-        }
+            override fun onResponse(call: Call<DrugsResponse>, response: Response<DrugsResponse>) {
+                statusCode = response.code()
+                drugs = response.body().getDrugs()
+                success = response.body().getSuccess()
+                message = response.body().getMessage()
+                Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
+            }
+        })
     }
 
 }
