@@ -24,4 +24,8 @@
     <string name="loading1">Загрузка из интернета</string>
     <string name="loading2">Загрузка из памяти</string>
     <string name="loading_failed">Загрузка не удалась</string>
+    <string name="incorrect_value">Неверное значение</string>
+    <string name="id">ID</string>
+    <string name="composition">Состав</string>
+    <string name="no_internet_connection">Нет соединения с интернетом</string>
 </resources>

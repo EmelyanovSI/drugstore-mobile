@@ -2,7 +2,10 @@ package by.gsu.drugstore.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
+import androidx.core.view.isVisible
 import by.gsu.drugstore.R
 import by.gsu.drugstore.model.Drug
 import by.gsu.drugstore.model.DrugsResponse
@@ -30,11 +33,35 @@ class SecondActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         button.setOnClickListener {
-            addData()
-            editTextInput.setText("")
-            editTextInput2.setText("")
-            editTextInput3.setText("")
-
+            when (button.text) {
+                resources.getString(R.string.add) -> {
+                    if (editTextInput.length() > 2 && editTextInput2.length() > 2 && editTextInput3.length() > 2) {
+                        addData()
+                        editTextInput.setText("")
+                        editTextInput2.setText("")
+                        editTextInput3.setText("")
+                    } else {
+                        if (editTextInput.length() <= 2)
+                            editTextInput.error = resources.getString(R.string.incorrect_value)
+                        if (editTextInput2.length() <= 2)
+                            editTextInput2.error = resources.getString(R.string.incorrect_value)
+                        if (editTextInput3.length() <= 2)
+                            editTextInput3.error = resources.getString(R.string.incorrect_value)
+                    }
+                }
+                resources.getString(R.string.remove) -> {
+                    if (editTextInput.text != null && editTextInput3.length() > 2) {
+                        removeData()
+                        editTextInput.setText("")
+                        editTextInput3.setText("")
+                    } else {
+                        if (editTextInput.text == null)
+                            editTextInput.error = resources.getString(R.string.incorrect_value)
+                        if (editTextInput3.length() <= 2)
+                            editTextInput3.error = resources.getString(R.string.incorrect_value)
+                    }
+                }
+            }
         }
 
         button2.setOnClickListener {
@@ -42,6 +69,34 @@ class SecondActivity : AppCompatActivity() {
             editTextInput2.setText("")
             editTextInput3.setText("")
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_activity_second, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.action_add -> {
+                supportActionBar?.title = resources.getString(R.string.add_drug)
+                editText.hint = resources.getString(R.string.title)
+                button.text = resources.getString(R.string.add)
+
+                editTextInput2.isEnabled = true
+                editTextInput2.isVisible = true
+            }
+            R.id.action_remove -> {
+                supportActionBar?.title = resources.getString(R.string.remove_drug)
+                editText.hint = resources.getString(R.string.id)
+                button.text = resources.getString(R.string.remove)
+
+                editTextInput2.setText("")
+                editTextInput2.isEnabled = false
+                editTextInput2.isVisible = false
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -58,17 +113,41 @@ class SecondActivity : AppCompatActivity() {
         )
         call?.enqueue(object : Callback<DrugsResponse> {
             override fun onFailure(call: Call<DrugsResponse>, t: Throwable) {
-                Toast.makeText(applicationContext, "add onFailure", Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    applicationContext, resources.getString(R.string.no_internet_connection), Toast.LENGTH_SHORT
+                ).show()
             }
 
             override fun onResponse(call: Call<DrugsResponse>, response: Response<DrugsResponse>) {
                 statusCode = response.code()
-                drugs = response.body().getDrugs()
                 success = response.body().getSuccess()
                 message = response.body().getMessage()
-                Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
+                drugs = response.body().getDrugs()
+                Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
             }
         })
     }
 
+    private fun removeData() {
+        val apiService = ApiClient().getClient()?.create(API::class.java)
+        val call = apiService?.removeDrug(
+            editTextInput.text.toString().toInt(),
+            editTextInput2.text.toString()
+        )
+        call?.enqueue(object : Callback<DrugsResponse> {
+            override fun onFailure(call: Call<DrugsResponse>, t: Throwable) {
+                Toast.makeText(
+                    applicationContext, resources.getString(R.string.no_internet_connection), Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            override fun onResponse(call: Call<DrugsResponse>, response: Response<DrugsResponse>) {
+                statusCode = response.code()
+                success = response.body().getSuccess()
+                message = response.body().getMessage()
+                drugs = response.body().getDrugs()
+                Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
 }

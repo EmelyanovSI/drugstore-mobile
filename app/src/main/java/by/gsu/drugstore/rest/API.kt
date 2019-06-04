@@ -7,21 +7,22 @@ import retrofit2.http.Query
 
 interface API {
 
-    @GET("get_all_drugs.php")
+    @GET("api/get_all_drugs.php")
     fun getAllDrugs(): Call<DrugsResponse>
 
-    @GET("get_drugs.php")
+    @GET("api/get_drugs.php")
     fun getDrugs(@Query("table_name") tableName: String): Call<DrugsResponse>
 
-    @GET("create_drug.php")
+    @GET("api/search_drugs.php")
+    fun searchDrugs(@Query("name") name: String): Call<DrugsResponse>
+
+    @GET("api/add_drug.php")
     fun addDrug(@Query("name") name: String,
                 @Query("composition") composition: String,
                 @Query("country") country: String): Call<DrugsResponse>
 
-    @GET("search_drugs.php")
-    fun searchDrugs(@Query("name") name: String): Call<DrugsResponse>
-
-    @GET("remove_drug.php")
-    fun removeDrug(@Query("id") id: Int): Call<DrugsResponse>
+    @GET("api/remove_drug.php")
+    fun removeDrug(@Query("id") id: Int,
+                   @Query("country") country: String): Call<DrugsResponse>
 
 }

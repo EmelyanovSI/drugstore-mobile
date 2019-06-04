@@ -6,7 +6,7 @@ class DrugsResponse(
     @SerializedName("success")
     private var success: Int = 0,
     @SerializedName("message")
-    private var message: String = "Constructor value",
+    private var message: String = "",
     @SerializedName("drugs")
     private var drugs: List<Drug> = emptyList()
 ) {

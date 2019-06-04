@@ -11,6 +11,7 @@ import android.widget.Toast
 import android.speech.RecognizerIntent
 import android.text.TextUtils
 import android.view.MenuItem
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.gsu.drugstore.*
 import by.gsu.drugstore.adapter.DrugsAdapter
@@ -18,6 +19,7 @@ import by.gsu.drugstore.model.Drug
 import by.gsu.drugstore.model.DrugsResponse
 import by.gsu.drugstore.rest.ApiClient
 import by.gsu.drugstore.rest.API
+import kotlinx.android.synthetic.main.progress_bar.*
 import kotlinx.android.synthetic.main.tool_bar.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -64,7 +66,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_list, menu)
+        menuInflater.inflate(R.menu.menu_main_activity, menu)
         val mMenuSearchItem = menu?.findItem(R.id.action_search)
         search_view.setMenuItem(mMenuSearchItem)
         return super.onCreateOptionsMenu(menu)
@@ -78,31 +80,31 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.action_all_list -> {
                 fillingData("all")
-                Toast.makeText(applicationContext, resources.getString(R.string.all), Toast.LENGTH_SHORT).show()
             }
             R.id.action_belarus_list -> {
                 fillingData("drugsbel")
-                Toast.makeText(applicationContext, resources.getString(R.string.belarus), Toast.LENGTH_SHORT).show()
             }
             R.id.action_turkey_list -> {
                 fillingData("drugsturkey")
-                Toast.makeText(applicationContext, resources.getString(R.string.turkey), Toast.LENGTH_SHORT).show()
             }
             R.id.action_usa_list -> {
                 fillingData("drugsusa")
-                Toast.makeText(applicationContext, resources.getString(R.string.usa), Toast.LENGTH_SHORT).show()
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
     private fun fillingData(tableName: String) {
+        recycler_view.adapter = null
+        progress_bar.visibility = View.VISIBLE
         val apiService = ApiClient().getClient()?.create(API::class.java)
         val call = apiService?.getDrugs(tableName)
         call?.enqueue(object : Callback<DrugsResponse> {
             override fun onFailure(call: Call<DrugsResponse>, t: Throwable) {
-                //TODO: form memory method
-                Toast.makeText(applicationContext, resources.getString(R.string.loading1), Toast.LENGTH_SHORT).show()
+                progress_bar.visibility = View.INVISIBLE
+                Toast.makeText(
+                    applicationContext, resources.getString(R.string.no_internet_connection), Toast.LENGTH_SHORT
+                ).show()
             }
 
             override fun onResponse(call: Call<DrugsResponse>, response: Response<DrugsResponse>) {
@@ -110,6 +112,7 @@ class MainActivity : AppCompatActivity() {
                 success = response.body().getSuccess()
                 message = response.body().getMessage()
                 drugs = response.body().getDrugs()
+                progress_bar.visibility = View.INVISIBLE
                 recycler_view.adapter = DrugsAdapter(drugs, R.layout.list_item, applicationContext)
                 Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
             }
@@ -117,30 +120,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun searchViewCode() {
-        // TODO: this
-        //search_view.setSuggestions(resources.getStringArray(R.array.query_suggestions))
+        search_view.setSuggestions(resources.getStringArray(R.array.query_suggestions))
         search_view.setEllipsize(true)
         search_view.setVoiceSearch(true)
 
         search_view.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                //recycler_view.adapter = DrugsAdapter(drugs, R.layout.list_item, applicationContext)
-                Toast.makeText(applicationContext, query, Toast.LENGTH_SHORT).show()
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String): Boolean {
+                recycler_view.adapter = null
+                progress_bar.visibility = View.VISIBLE
                 val apiService = ApiClient().getClient()?.create(API::class.java)
-                val call = apiService?.searchDrugs(newText)
+                val call = apiService?.searchDrugs(query)
                 call?.enqueue(object : Callback<DrugsResponse> {
                     override fun onFailure(call: Call<DrugsResponse>, t: Throwable) {
-                        //TODO: form memory method
+                        progress_bar.visibility = View.INVISIBLE
                         Toast.makeText(
-                            applicationContext,
-                            resources.getString(R.string.loading1),
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
+                            applicationContext, resources.getString(R.string.no_internet_connection), Toast.LENGTH_SHORT
+                        ).show()
                     }
 
                     override fun onResponse(call: Call<DrugsResponse>, response: Response<DrugsResponse>) {
@@ -148,36 +143,31 @@ class MainActivity : AppCompatActivity() {
                         success = response.body().getSuccess()
                         message = response.body().getMessage()
                         drugs = response.body().getDrugs()
+                        progress_bar.visibility = View.INVISIBLE
                         recycler_view.adapter = DrugsAdapter(drugs, R.layout.list_item, applicationContext)
-                        Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(applicationContext, "$query $message", Toast.LENGTH_SHORT).show()
                     }
                 })
+                return false
+            }
 
+            override fun onQueryTextChange(newText: String): Boolean {
                 return true
             }
         })
 
         search_view.setOnSearchViewListener(object : MaterialSearchView.SearchViewListener {
             override fun onSearchViewShown() {
-                /*val set = ConstraintSet()
-                set.clone(main_activity)
-                set.connect(R.id.recycler_view, ConstraintSet.TOP, R.id.search_view, ConstraintSet.BOTTOM)
-                set.applyTo(main_activity)*/
             }
 
             override fun onSearchViewClosed() {
-                /*val set = ConstraintSet()
-                set.clone(main_activity)
-                set.connect(R.id.recycler_view, ConstraintSet.TOP, R.id.tool_bar, ConstraintSet.BOTTOM)
-                set.applyTo(main_activity)*/
             }
         })
     }
 
-    // TODO: this
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == MaterialSearchView.REQUEST_VOICE && resultCode == Activity.RESULT_OK) {
-            val matches = data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+            val matches = data!!.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
             if (matches != null && matches.size > 0) {
                 val searchWrd = matches[0]
                 if (!TextUtils.isEmpty(searchWrd)) {
@@ -187,6 +177,4 @@ class MainActivity : AppCompatActivity() {
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
-
-    // TODO: разбить все на файлы
 }

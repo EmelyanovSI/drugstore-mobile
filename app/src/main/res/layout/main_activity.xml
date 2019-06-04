@@ -8,39 +8,6 @@
         android:layout_height="match_parent"
         tools:context=".activity.MainActivity">
 
-    <androidx.core.widget.ContentLoadingProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
-
-    <include layout="@layout/tool_bar"/>
-
-    <com.miguelcatalan.materialsearchview.MaterialSearchView
-            android:id="@+id/search_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:hint="@string/search"
-            android:textColorHint="#FFFFFF"
-            android:textColor="#FFFFFF"
-
-            app:searchBackground="@color/colorPrimary"
-            app:searchSuggestionBackground="@color/colorPrimary"
-
-            app:searchBackIcon="@drawable/ic_action_navigation_arrow_back_inverted"
-            app:searchCloseIcon="@drawable/ic_action_navigation_close_inverted"
-            app:searchSuggestionIcon="@drawable/ic_suggestion"
-            app:searchVoiceIcon="@drawable/ic_action_voice_search_inverted"
-
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:scrollbars="vertical"
@@ -51,10 +18,29 @@
             app:layout_constraintTop_toBottomOf="@+id/tool_bar"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <!--<androidx.core.widget.NestedScrollView android:layout_width="match_parent"
-                                           android:layout_height="match_parent">
+    <include layout="@layout/tool_bar"/>
 
-    </androidx.core.widget.NestedScrollView>-->
+    <com.miguelcatalan.materialsearchview.MaterialSearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
 
+            android:hint="@string/search"
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"
+
+            app:searchBackground="@color/colorDrugstorePrimary"
+            app:searchSuggestionBackground="@color/colorDrugstoreAccent"
+
+            app:searchBackIcon="@drawable/ic_action_navigation_arrow_back_inverted"
+            app:searchCloseIcon="@drawable/ic_action_navigation_close_inverted"
+            app:searchSuggestionIcon="@drawable/ic_info_outline_white_24dp"
+            app:searchVoiceIcon="@drawable/ic_action_voice_search_inverted"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    <include layout="@layout/progress_bar"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

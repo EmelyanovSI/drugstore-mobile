@@ -11,7 +11,7 @@ import by.gsu.drugstore.model.Drug
 
 class DrugsAdapter(
     val drugs: List<Drug>,
-    val rowLayout: Int,
+    private val rowLayout: Int,
     val context: Context
 ) : RecyclerView.Adapter<DrugsAdapter.DrugViewHolder>() {
 
@@ -19,6 +19,7 @@ class DrugsAdapter(
         val txtName: TextView = itemView.findViewById(R.id.title)
         val txtComposition: TextView = itemView.findViewById(R.id.active_substance)
         val txtCountry: TextView = itemView.findViewById(R.id.country)
+        val txtId: TextView = itemView.findViewById(R.id.id)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DrugViewHolder {
@@ -30,6 +31,7 @@ class DrugsAdapter(
         holder.txtName.text = drugs[position].getName()
         holder.txtComposition.text = drugs[position].getComposition()
         holder.txtCountry.text = drugs[position].getCountry()
+        holder.txtId.text = drugs[position].getId().toString()
     }
 
     override fun getItemCount(): Int {

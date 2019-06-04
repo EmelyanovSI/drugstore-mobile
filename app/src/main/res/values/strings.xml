@@ -14,9 +14,14 @@
     <string name="loading2">Loading form memory</string>
     <string name="loading_failed">Loading failed</string>
 
+    <string name="no_internet_connection">No internet connection</string>
+
     <string name="title">Title</string>
     <string name="active_substance">Active substance</string>
     <string name="country">Country</string>
+
+    <string name="id">ID</string>
+    <string name="composition">Composition</string>
 
     <string name="save">Save</string>
     <string name="clear">Clear</string>
@@ -32,6 +37,8 @@
 
     <string name="title_sample">Paracetamol</string>
     <string name="country_sample">Belarus</string>
+
+    <string name="incorrect_value">Incorrect value</string>
 
     <string-array name="query_suggestions">
         <item>Ибупрофен</item>
