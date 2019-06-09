@@ -1,15 +1,43 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorDrugstorePrimary</item>
-        <item name="colorPrimaryDark">@color/colorDrugstorePrimary</item><!--colorDrugstorePrimaryDark-->
+        <item name="colorPrimaryDark">@color/colorDrugstorePrimary</item>
         <item name="colorAccent">@color/colorDrugstoreAccent</item>
     </style>
 
     <style name="ToolbarColoredBackArrow" parent="AppTheme">
         <item name="android:textColorSecondary">@color/white</item>
+    </style>
+
+    <style name="Activity">
+        <item name="android:background">@color/lightGreen</item>
+    </style>
+
+    <style name="Fragment" parent="Activity">
+
+    </style>
+
+    <style name="LowercaseText">
+        <item name="android:textColor">@color/colorDrugstorePrimary</item>
+    </style>
+
+    <style name="UppercaseText" parent="LowercaseText">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">@dimen/text_spacing_large</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="UnderButtonText" parent="LowercaseText">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:paddingBottom">@dimen/spacing_small</item>
+    </style>
+
+    <style name="TextInputLayoutPassword" parent="TextInputLayout">
+        <item name="passwordToggleEnabled">true</item>
     </style>
 
 </resources>
