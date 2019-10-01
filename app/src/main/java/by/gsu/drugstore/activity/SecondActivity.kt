@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
 import by.gsu.drugstore.R
@@ -84,7 +85,8 @@ class SecondActivity : AppCompatActivity() {
                 button.text = resources.getString(R.string.add)
 
                 editTextInput2.isEnabled = true
-                editTextInput2.isVisible = true
+                editText2.hint = resources.getString(R.string.active_substance)
+                editTextInput2.visibility = View.VISIBLE /*isVisible = true*/
             }
             R.id.action_remove -> {
                 supportActionBar?.title = resources.getString(R.string.remove_drug)
@@ -93,7 +95,8 @@ class SecondActivity : AppCompatActivity() {
 
                 editTextInput2.setText("")
                 editTextInput2.isEnabled = false
-                editTextInput2.isVisible = false
+                editText2.hint = null
+                editTextInput2.visibility = View.INVISIBLE /*isVisible = false*/
             }
         }
         return super.onOptionsItemSelected(item)

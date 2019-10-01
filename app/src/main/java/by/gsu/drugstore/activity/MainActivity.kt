@@ -50,6 +50,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         fillingData("all")
+        Thread.sleep(5000)
+        fillingData("all")
         super.onResume()
     }
 
