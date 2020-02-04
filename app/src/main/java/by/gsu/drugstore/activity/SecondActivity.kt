@@ -6,7 +6,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import androidx.core.view.isVisible
 import by.gsu.drugstore.R
 import by.gsu.drugstore.model.Drug
 import by.gsu.drugstore.model.DrugsResponse
@@ -117,7 +116,9 @@ class SecondActivity : AppCompatActivity() {
         call?.enqueue(object : Callback<DrugsResponse> {
             override fun onFailure(call: Call<DrugsResponse>, t: Throwable) {
                 Toast.makeText(
-                    applicationContext, resources.getString(R.string.no_internet_connection), Toast.LENGTH_SHORT
+                    applicationContext,
+                    resources.getString(R.string.no_internet_connection),
+                    Toast.LENGTH_SHORT
                 ).show()
             }
 
@@ -140,7 +141,9 @@ class SecondActivity : AppCompatActivity() {
         call?.enqueue(object : Callback<DrugsResponse> {
             override fun onFailure(call: Call<DrugsResponse>, t: Throwable) {
                 Toast.makeText(
-                    applicationContext, resources.getString(R.string.no_internet_connection), Toast.LENGTH_SHORT
+                    applicationContext,
+                    resources.getString(R.string.no_internet_connection),
+                    Toast.LENGTH_SHORT
                 ).show()
             }
 

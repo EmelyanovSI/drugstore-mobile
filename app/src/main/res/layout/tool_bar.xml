@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.appbar.MaterialToolbar
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+<com.google.android.material.appbar.MaterialToolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
 
-        android:id="@+id/tool_bar"
+    android:id="@+id/tool_bar"
 
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
 
-        android:background="@color/colorDrugstorePrimary"
-        app:titleTextColor="@color/white"
-        app:subtitleTextColor="@color/white"
-        app:theme="@style/ToolbarColoredBackArrow"
+    android:background="@color/colorDrugstorePrimary"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
 
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+    app:subtitleTextColor="@color/white"
+    app:theme="@style/ToolbarColoredBackArrow"
+    app:titleTextColor="@color/white">
 
 </com.google.android.material.appbar.MaterialToolbar>

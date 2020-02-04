@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ApiClient {
 
-    private val BASE_URL = "https://drugstore-api-gsu-by.herokuapp.com/"
+    private val BASE_URL = "https://drugstore-api-php-gsu-by.herokuapp.com/"
     private var retrofit: Retrofit? = null
 
     fun getClient(): Retrofit? {

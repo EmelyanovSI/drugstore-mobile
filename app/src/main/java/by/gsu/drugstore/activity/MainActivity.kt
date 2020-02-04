@@ -105,7 +105,9 @@ class MainActivity : AppCompatActivity() {
             override fun onFailure(call: Call<DrugsResponse>, t: Throwable) {
                 progress_bar.visibility = View.INVISIBLE
                 Toast.makeText(
-                    applicationContext, resources.getString(R.string.no_internet_connection), Toast.LENGTH_SHORT
+                    applicationContext,
+                    resources.getString(R.string.no_internet_connection),
+                    Toast.LENGTH_SHORT
                 ).show()
             }
 
@@ -136,18 +138,25 @@ class MainActivity : AppCompatActivity() {
                     override fun onFailure(call: Call<DrugsResponse>, t: Throwable) {
                         progress_bar.visibility = View.INVISIBLE
                         Toast.makeText(
-                            applicationContext, resources.getString(R.string.no_internet_connection), Toast.LENGTH_SHORT
+                            applicationContext,
+                            resources.getString(R.string.no_internet_connection),
+                            Toast.LENGTH_SHORT
                         ).show()
                     }
 
-                    override fun onResponse(call: Call<DrugsResponse>, response: Response<DrugsResponse>) {
+                    override fun onResponse(
+                        call: Call<DrugsResponse>,
+                        response: Response<DrugsResponse>
+                    ) {
                         statusCode = response.code()
                         success = response.body().getSuccess()
                         message = response.body().getMessage()
                         drugs = response.body().getDrugs()
                         progress_bar.visibility = View.INVISIBLE
-                        recycler_view.adapter = DrugsAdapter(drugs, R.layout.list_item, applicationContext)
-                        Toast.makeText(applicationContext, "$query $message", Toast.LENGTH_SHORT).show()
+                        recycler_view.adapter =
+                            DrugsAdapter(drugs, R.layout.list_item, applicationContext)
+                        Toast.makeText(applicationContext, "$query $message", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 })
                 return false
