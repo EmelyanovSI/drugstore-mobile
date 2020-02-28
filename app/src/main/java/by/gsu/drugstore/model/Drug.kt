@@ -14,9 +14,6 @@ class Drug(
     @SerializedName("id")
     private var id: Int = 0
 
-    /*@SerializedName("title")
-    private var title: String = ""*/
-
     fun setId(id: Int) {
         this@Drug.id = id
     }
@@ -24,14 +21,6 @@ class Drug(
     fun getId(): Int {
         return id
     }
-
-    /*fun setTitle(title: String) {
-        this@Drug.title = title
-    }
-
-    fun getTitle(): String {
-        return title
-    }*/
 
     fun setName(name: String) {
         this@Drug.name = name

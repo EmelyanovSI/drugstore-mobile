@@ -27,10 +27,10 @@ import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
-    private var drugs: List<Drug> = emptyList()
-    private var message: String = ""
+    private var drugs: List<Drug>? = emptyList()
+    private var message: String? = ""
     private var statusCode: Int = 0
-    private var success: Int = 0
+    private var success: Int? = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,23 +40,9 @@ class MainActivity : AppCompatActivity() {
         recycler_view.layoutManager = LinearLayoutManager(this@MainActivity)
     }
 
-    override fun onStart() {
-        super.onStart()
-    }
-
-    override fun onStop() {
-        super.onStop()
-    }
-
     override fun onResume() {
         fillingData("all")
-        Thread.sleep(5000)
-        fillingData("all")
         super.onResume()
-    }
-
-    override fun onPause() {
-        super.onPause()
     }
 
     override fun onBackPressed() {
@@ -74,8 +60,8 @@ class MainActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.action_add -> {
                 val intent = Intent(this, SecondActivity::class.java)
                 startActivity(intent)
@@ -113,11 +99,11 @@ class MainActivity : AppCompatActivity() {
 
             override fun onResponse(call: Call<DrugsResponse>, response: Response<DrugsResponse>) {
                 statusCode = response.code()
-                success = response.body().getSuccess()
-                message = response.body().getMessage()
-                drugs = response.body().getDrugs()
+                success = response.body()?.getSuccess()
+                message = response.body()?.getMessage()
+                drugs = response.body()?.getDrugs()
                 progress_bar.visibility = View.INVISIBLE
-                recycler_view.adapter = DrugsAdapter(drugs, R.layout.list_item, applicationContext)
+                recycler_view.adapter = DrugsAdapter(drugs!!, R.layout.list_item)
                 Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
             }
         })
@@ -149,14 +135,14 @@ class MainActivity : AppCompatActivity() {
                         response: Response<DrugsResponse>
                     ) {
                         statusCode = response.code()
-                        success = response.body().getSuccess()
-                        message = response.body().getMessage()
-                        drugs = response.body().getDrugs()
+                        success = response.body()?.getSuccess()
+                        message = response.body()?.getMessage()
+                        drugs = response.body()?.getDrugs()
                         progress_bar.visibility = View.INVISIBLE
-                        recycler_view.adapter =
-                            DrugsAdapter(drugs, R.layout.list_item, applicationContext)
-                        Toast.makeText(applicationContext, "$query $message", Toast.LENGTH_SHORT)
-                            .show()
+                        recycler_view.adapter = DrugsAdapter(drugs!!, R.layout.list_item)
+                        Toast.makeText(
+                            applicationContext, "$query $message", Toast.LENGTH_SHORT
+                        ).show()
                     }
                 })
                 return false

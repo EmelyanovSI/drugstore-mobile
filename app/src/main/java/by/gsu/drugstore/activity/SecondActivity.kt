@@ -19,10 +19,10 @@ import retrofit2.Response
 
 class SecondActivity : AppCompatActivity() {
 
-    private var drugs: List<Drug> = emptyList()
-    private var message: String = ""
+    private var drugs: List<Drug>? = emptyList()
+    private var message: String? = ""
     private var statusCode: Int = 0
-    private var success: Int = 0
+    private var success: Int? = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,8 +76,8 @@ class SecondActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.action_add -> {
                 supportActionBar?.title = resources.getString(R.string.add_drug)
                 editText.hint = resources.getString(R.string.title)
@@ -124,9 +124,9 @@ class SecondActivity : AppCompatActivity() {
 
             override fun onResponse(call: Call<DrugsResponse>, response: Response<DrugsResponse>) {
                 statusCode = response.code()
-                success = response.body().getSuccess()
-                message = response.body().getMessage()
-                drugs = response.body().getDrugs()
+                success = response.body()?.getSuccess()
+                message = response.body()?.getMessage()
+                drugs = response.body()?.getDrugs()
                 Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
             }
         })
@@ -149,9 +149,9 @@ class SecondActivity : AppCompatActivity() {
 
             override fun onResponse(call: Call<DrugsResponse>, response: Response<DrugsResponse>) {
                 statusCode = response.code()
-                success = response.body().getSuccess()
-                message = response.body().getMessage()
-                drugs = response.body().getDrugs()
+                success = response.body()?.getSuccess()
+                message = response.body()?.getMessage()
+                drugs = response.body()?.getDrugs()
                 Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
             }
         })

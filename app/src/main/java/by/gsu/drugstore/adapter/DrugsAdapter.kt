@@ -1,6 +1,5 @@
 package by.gsu.drugstore.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +10,7 @@ import by.gsu.drugstore.model.Drug
 
 class DrugsAdapter(
     val drugs: List<Drug>,
-    private val rowLayout: Int,
-    val context: Context
+    private val rowLayout: Int
 ) : RecyclerView.Adapter<DrugsAdapter.DrugViewHolder>() {
 
     class DrugViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
